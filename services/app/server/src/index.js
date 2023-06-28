@@ -37,6 +37,12 @@ const app = express();
 app.get('/homepage', async (req, res) => {
     const top = await axios.get(`http://${GATEWAY}/songs/top`);
     const rcmd = await axios.get(`http://${GATEWAY}/rcmd`);
+    // Retrival of a comment from some artist's timeline, it is intentionally made complex to showcase the R3 endpoint grouping algorithm
+    const artist = Math.random().toString(36).substring(7);
+    const postid = Math.floor(Math.random() * 1000);
+    const commentid = Math.floor(Math.random() * 1000);
+    const apiVersion = Math.floor(Math.random() * 2) + 1;
+    const post = await axios.get(`http://${GATEWAY}/api/v${apiVersion}/artists/${artist}/moments/${postid}/comments/${commentid}`);
 
     res.json({
         top: top.data,

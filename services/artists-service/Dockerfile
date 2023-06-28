@@ -15,27 +15,16 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-import os
-import time
-import traceback
-import random
 
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+# @feature: python-agent;
+FROM skywalking-python:1.0.1-grpc-py3.10-slim
 
-url = os.getenv('URL', 'http://frontend/index.html')
+WORKDIR /workspace
 
-options = FirefoxOptions()
-options.add_argument("--headless")
-driver = webdriver.Firefox(options=options)
+COPY requirements.txt .
 
-while True:
-    print(f'Sending traffic to {url}')
-    # noinspection PyBroadException
-    try:
-        driver.get(url)
-    except Exception:
-        traceback.print_exc()
-    finally:
-        # Introduces a bit randomness to the demo
-        time.sleep(random.randint(5, 15))
+RUN pip install -r requirements.txt
+
+COPY src .
+
+CMD python app.py

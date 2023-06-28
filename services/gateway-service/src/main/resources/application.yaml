@@ -31,3 +31,7 @@ spring:
           uri: http://rcmd
           predicates:
             - Path=/rcmd/**
+        - id: artists-service
+          uri: http://artists
+          predicates:
+            - Path=/api/v*/artists/**

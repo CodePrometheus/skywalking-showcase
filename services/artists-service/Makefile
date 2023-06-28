@@ -15,27 +15,20 @@
 # specific language governing permissions and limitations
 # under the License.
 #
-import os
-import time
-import traceback
-import random
 
-from selenium import webdriver
-from selenium.webdriver.firefox.options import Options as FirefoxOptions
+include ../../Makefile.in
 
-url = os.getenv('URL', 'http://frontend/index.html')
+.PHONY: build
+build:
 
-options = FirefoxOptions()
-options.add_argument("--headless")
-driver = webdriver.Firefox(options=options)
+.PHONY: docker docker.build docker.push
 
-while True:
-    print(f'Sending traffic to {url}')
-    # noinspection PyBroadException
-    try:
-        driver.get(url)
-    except Exception:
-        traceback.print_exc()
-    finally:
-        # Introduces a bit randomness to the demo
-        time.sleep(random.randint(5, 15))
+docker: docker.build
+
+docker.build:
+	docker build . -t $(HUB)/artists-service:$(TAG)
+	docker build . -t $(HUB)/artists-service:$(TAG)-agentless -f Dockerfile.agentless
+
+docker.push: docker.build
+	docker push $(HUB)/artists-service:$(TAG)
+	docker push $(HUB)/artists-service:$(TAG)-agentless
