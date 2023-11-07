@@ -55,5 +55,7 @@ GRAFANA_IMAGE ?= grafana/grafana:9.5.2
 OTEL_COLLECTOR_IMAGE ?= otel/opentelemetry-collector
 OTEL_COLLECTOR_IMAGE_TAG ?= 0.72.0
 
+SW_R3_IMAGE ?= ghcr.io/
+SW_R3_IMAGE_TAG ?= pending 
 # ALL variables should be listed above ^^
 EXPORTED_VARS := $(filter-out <%,$(.VARIABLES))

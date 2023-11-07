@@ -18,17 +18,17 @@
 version: '2.1'
 
 services:
-  r3:
+  r3: # https://github.com/SkyAPM/R3 
     image: ${SW_R3_IMAGE}:${SW_R3_IMAGE_TAG}
     container_name: r3
     healthcheck:
       test: [ "CMD", "bash", "-c", "cat < /dev/null > /dev/tcp/127.0.0.1/17128" ]
-    networks:
-      - manual
+    networks: [ sw ]
     ports:
         - "17128:17128"
     depends_on:
       oap:
         condition: service_healthy
+
 networks:
   sw:

@@ -72,8 +72,8 @@ services:
       oap:
         condition: service_healthy
 
-  # Python agent
-  rcmd:
+  # Python agent + R3 URI Grouping demo
+  artists:
     image: ${HUB}/artists-service:${TAG}
     networks: [ sw ]
     environment:

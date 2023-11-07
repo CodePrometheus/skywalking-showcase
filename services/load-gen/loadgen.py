@@ -37,5 +37,5 @@ while True:
     except Exception:
         traceback.print_exc()
     finally:
-        # Introduces a bit randomness to the demo
+        # Introduces some randomness to the demo
         time.sleep(random.randint(5, 15))

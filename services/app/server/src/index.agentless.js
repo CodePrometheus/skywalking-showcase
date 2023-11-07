@@ -36,9 +36,19 @@ app.get('/homepage', async (req, res) => {
     const top = await axios.get(`http://${GATEWAY}/songs/top`, { headers });
     const rcmd = await axios.get(`http://${GATEWAY}/rcmd`, { headers });
 
+    // Retrival of a comment from some artist's timeline (moments), 
+    // this uri is intentionally made complex to showcase the R3 endpoint grouping algorithm
+    const apiVersion = Math.floor(Math.random() * 2) + 1;
+    const artist = Math.random().toString(36).substring(7);
+    const momentid = Math.floor(Math.random() * 1000);
+    const commentid = Math.floor(Math.random() * 1000);
+
+    const comment = await axios.get(`http://${GATEWAY}/api/v${apiVersion}/artists/${artist}/moments/${momentid}/comments/${commentid}`);
+
     res.json({
         top: top.data,
         rcmd: rcmd.data,
+        comment: comment.data
     });
 });
 

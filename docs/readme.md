@@ -12,12 +12,14 @@ graph LR;
   loadgen[load generator] --> ui("UI (React)") --> Traffic1("HTTP Request for backend serv") -->  apisix("APISIX as UI container")
  --> app("app server (NodeJS)") --> gateway("gateway (Spring)");
   ui("UI (React)") --> Traffic2("HTTP Request for UI codes") --> apisix("APISIX with  UI container")
-  gateway --> songs("songs (Spring)") & rcmd("recommendations (Python)");
+  gateway --> songs("songs (Spring)") & rcmd("recommendations (Python)") & artists("artists service (Python & R3 URI Grouping<sup>1</sup>)");
   songs --> activeMQ
   activeMQ --> songs
   rcmd --> songs;
   songs --> db("database (H2)");
 ```
+
+[1] URI Grouping is supported by **R3**, an algorithm that groups same RESTful URIs of different path parameters automatically. See the [R3 Project](https://github.com/SkyAPM/R3?tab=readme-ov-file#algorithm-uridrain) for details about the algorithm and its deployment methods. 
 
 ## Usage
 
