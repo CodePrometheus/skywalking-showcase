@@ -68,3 +68,8 @@ dependencies:
     version: 0.51.1
     repository: https://open-telemetry.github.io/opentelemetry-helm-charts
     condition: opentelemetry.enabled
+
+  - name: kong
+    version: 2.42.0
+    repository: https://charts.konghq.com
+    condition: kong.enabled

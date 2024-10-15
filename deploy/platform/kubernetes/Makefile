@@ -212,6 +212,12 @@ feature-activemq-monitor:
 	$(eval HELM_OPTIONS := $(HELM_OPTIONS) --set features.activemqMonitor.enabled=true)
 	$(eval HELM_OPTIONS := $(HELM_OPTIONS) --set opentelemetry.enabled=true)
 
+.PHONY: feature-kong-monitor
+feature-kong-monitor:
+	$(eval HELM_OPTIONS := $(HELM_OPTIONS) --set features.kongMonitor.enabled=true)
+	$(eval HELM_OPTIONS := $(HELM_OPTIONS) --set kong.enabled=true)
+	$(eval HELM_OPTIONS := $(HELM_OPTIONS) --set opentelemetry.enabled=true)
+
 .PHONY: cilium
 cilium:
 ifeq (, $(shell which cilium))
@@ -231,7 +237,7 @@ feature-cilium: cilium
 
 .PHONY: deploy
 deploy: $(features)
-	helm dep up .
+	#helm dep up .
 	helm -n $(NAMESPACE) upgrade --install $(RELEASE) . --create-namespace --timeout=20m $(HELM_OPTIONS)
 ifneq ($(DEBUG),true)
 	$(info rollout restart to allow the new sidecar to be injected.)

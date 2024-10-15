@@ -15,13 +15,34 @@
 # specific language governing permissions and limitations
 # under the License.
 #
+{{- if .Values.features.rabbitmqMonitor.enabled }}
 
-.EXPORT_ALL_VARIABLES:
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: kong-mock-client
+spec:
+  replicas: 1
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app: mock-client
+  template:
+    metadata:
+      labels:
+        app: mock-client
+    spec:
+      containers:
+        - image: curlimages/curl:8.10.1
+          name: curl
+          imagePullPolicy: IfNotPresent
+          command: [ "sh /etc/kong-e2e-data-mock.sh" ]
+          ports:
+            - containerPort: 8080
+              name: http
+              protocol: TCP
+      restartPolicy: Always
+      securityContext: { }
 
-NAMESPACE ?= skywalking-showcase
-SAMPLE_SERVICES_NAMESPACE ?= sample-services
-CILIUM_SERVICES_NAMESPACE ?= cilium-services
-RELEASE ?= demo
-AGENTLESS ?= false
-
-FEATURE_FLAGS ?= java-agent-injector,cluster,elasticsearch,kubernetes-monitor,so11y,vm-monitor,als,event,istiod-monitor,satellite,rover,trace-profiling,mysql-monitor,postgresql-monitor,nginx-monitor,apisix-monitor,grafana,elasticsearch-monitor,rabbitmq-monitor,mongodb-monitor,r3,rocketmq-monitor,pulsar-monitor,activemq-monitor,kong-monitor
+{{- end }}
